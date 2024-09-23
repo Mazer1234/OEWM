@@ -7,9 +7,15 @@ void print_binar_long(unsigned long ul){
     for (int i = (sizeof(unsigned long) * 8 - 1); i >= 0; i-- ){
         unsigned long u1 = 1 << i;
         cout << ((ul & u1) ? '1' : '0');
-        if (i == 31){
-            cout << " ";
-        }
+    }
+    cout << endl;
+}
+
+void print_binar_long_long(long long ul){
+    for (int i = (sizeof(long long) * 8 - 1); i >= 0; i-- ){
+        long long u1 = (ul >> i) & 1;
+        cout << u1;
+        if(i == 63 || i == 52) cout << " ";
     }
     cout << endl;
 }
@@ -17,49 +23,72 @@ void print_binar_long(unsigned long ul){
 void print_binar_double(double d){
     union{
         double d;
-        unsigned long long ul;
+        long long ul;
     } u;
     u.d = d;
 
-    for(int i = (sizeof(double)*8 - 1); i >= 0; i--){
-        long long u1 = (u.ul >> i) & 1;
-        cout << u1;
-        if(i == 63) cout << " ";
-        if(i == 52) cout << ",";
+    print_binar_long_long(u.ul);
+}
+
+int find_1(unsigned long ul){
+    int num_1 = 0;
+    for(int i = 0; i < (sizeof(unsigned long)*8); i++){
+        if (ul & 1 << i){
+            num_1++;
+        }
     }
-    cout << endl;
+    return num_1;
+}
+
+int find_1_l(long long ul){
+    int num_1 = 0;
+    for(int i = sizeof(long long)*8-1; i >= 0; i--){
+        long long test = ul >> i & 1;
+        if (test){
+            num_1++;
+        }
+    }
+    return num_1;
 }
 
 void move_bits_int(unsigned long ul){
-    unsigned long ul1 = ul;
-    ul1 = ul1 << 1;
+    unsigned long ul1 = ul, mask = 0;
+    int num_1;
     cout << "---------------------" << endl;
+    num_1 = find_1(ul);
+    for (int i = 0; i < num_1; i++){
+        mask |= 1 << (sizeof(unsigned long)* 8 - 1 - i);
+    }
     cout << "Move bits 1 to the left in unsigned long: ";
     for (int i = (sizeof(unsigned long) * 8 - 1) ; i >= 0; i--){
-        cout << (ul1 & (1 << i) ? '1' : '0');
-        if (i == 31) cout << " ";
+        cout << (mask & (1 << i) ? '1' : '0');
     }
     cout << endl;
-    cout << "Binary sistem : " << ul1 << endl;
+    cout << "Binary sistem : " << mask << endl;
 }
 
 void move_bits_double(double d){
+    int num_1;
+    long long mask = 0;
     union{
         double d;
         long long ll;
     } u;
+    cout << endl;
     u.d = d;
-    u.ll = u.ll << 1;
     cout << "---------------------" << endl;
-    cout << "Move bits 1 to the left in double: ";
+    num_1 = find_1_l(u.ll);
+    cout << "Move bits 1 to the left in double: " << endl;
+    for(int i = 0; i < num_1; i++){
+        mask |= 1LL << (sizeof(long long) * 8 - 1 - i);
+    }
     for (int i = (sizeof(long long) * 8 - 1); i >= 0; i-- ){
-        long long test = u.ll >> i & 1; 
+        long long test = (mask >> i) & 1; 
         cout << test;
-        if (i == 63) cout << " ";
-        if (i == 52) cout << ",";
+        if (i == 63 || i == 52) cout << " ";
     }
     cout << endl;
-    cout << "Binary system: " << u.d << endl;
+    cout << "Binary system: " << double(mask) << endl;
     cout << "---------------------" << endl;
 
 }
@@ -68,7 +97,6 @@ int main(){
     unsigned long ul;
     cout << "-----------LONG-----------------" << endl;
     cout << "Enter the unsigned long digit: ";
-
     while(!(cin >> ul)){
         cout << "Invalid number? try again";
         cin.clear();
