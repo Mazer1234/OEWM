@@ -1,8 +1,11 @@
 #include <iostream>
 #include <limits>
-#define MAXLEN 100
 using namespace std;
 
+/**
+ * @brief Вывод числа типа unsigned long в двоичном представлении.
+ * @param ul - Число типа unsigned long.
+ */
 void print_binar_long(unsigned long ul)
 {
     for (int i = (sizeof(unsigned long) * 8 - 1); i >= 0; i--)
@@ -13,6 +16,10 @@ void print_binar_long(unsigned long ul)
     cout << endl;
 }
 
+/**
+ * @brief Вывод числа типа long long в двоичном представлении.
+ * @param ul - число типа long long.
+ */
 void print_binar_long_long(long long ul)
 {
     for (int i = (sizeof(long long) * 8 - 1); i >= 0; i--)
@@ -25,6 +32,10 @@ void print_binar_long_long(long long ul)
     cout << endl;
 }
 
+/**
+ * @brief Вывод числа double в двоичном представлении.
+ * @param d - число типа double.
+ */
 void print_binar_double(double d)
 {
     union
@@ -37,6 +48,10 @@ void print_binar_double(double d)
     print_binar_long_long(u.ul);
 }
 
+/**
+ * @brief Подсчёт битов равных 1 в числе типа unsigned long.
+ * @param ul - число типа unsigned long.
+ */
 int find_1(unsigned long ul)
 {
     int num_1 = 0;
@@ -50,6 +65,10 @@ int find_1(unsigned long ul)
     return num_1;
 }
 
+/**
+ * @brief Подсчёт битов равных 1 в числе типа long long.
+ * @param ul - число типа long long.
+ */
 int find_1_l(long long ul)
 {
     int num_1 = 0;
@@ -64,6 +83,10 @@ int find_1_l(long long ul)
     return num_1;
 }
 
+/**
+ * @brief Смещение в числе типа unsigned long всех битов 1 влево на 1 позицию, а 0 вправо на 1 позицию.
+ * @param ul - число типа unsigned long.
+ */
 void move_bits_int(unsigned long ul)
 {
     unsigned long ul1 = ul, mask = 0;
@@ -80,6 +103,10 @@ void move_bits_int(unsigned long ul)
     cout << "Binary sistem : " << mask << endl;
 }
 
+/**
+ * @brief Смещение в числе типа double всех битов 1 влево на 1 позицию, а 0 вправо на 1 позицию.
+ * @param d - число типа double.
+ */
 void move_bits_double(double d)
 {
     int num_1;
