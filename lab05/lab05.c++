@@ -30,9 +30,6 @@ void interrupt newkeyboard(){
     alpha = 0;
     if (scancode >= 16 && scancode <= 64) { // A-Z
         alpha = scancode;
-        if(alpha == 41){
-            gotoxy(10, wherey()-1);
-        }
     } else if (scancode >= 2 && scancode <= 11) { // 1-9
         alpha = scancode;
     } else {
@@ -45,7 +42,7 @@ void interrupt newkeyboard(){
         oldkeyboard();
         return;
     }else {
-        // printf("%c", alpha);
+        //printf("%c", alpha);
         //outportb(0x20, 0x20);
         oldkeyboard();
     }
@@ -75,7 +72,7 @@ int main(){
     while(1){
         al = getch();
         if (kbhit()){
-            if (getch() == 27){
+            if (al == 27){
                 break;
             }
             printf("%c", al);
